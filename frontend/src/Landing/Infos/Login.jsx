@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory ,Redirect} from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 const Login = () => {
@@ -20,33 +20,39 @@ const Login = () => {
   const form = useRef();
   const checkBtn = useRef();
 
+
+
+  
+
+
   //api call
   const handleLogin = (e) => {
     e.preventDefault();
     setMessage("");
     setLoading(true);
     // form.current.validateAll();
-    AuthService.login(email, password).then(
-      () => {
-        history.push("/register");
-        window.location.reload();
-      },
-      (error) => {
-        const resMessage =
+    try{
+      AuthService.login(email, password)
+    }catch (error){
+      const resMessage =
           (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
+              error.response.data &&
+              error.response.data.message) ||
           error.message ||
           error.toString();
 
-        setLoading(false);
-        setMessage(resMessage);
-      }
-    );
+      setLoading(false);
+      setMessage(resMessage);
+    }finally {
+      //  localStorage.setItem("isLog", true);
+      history.push("/");
+
+      window.location.reload();
+    }
   };
 
   return (
-    <div className="w-full h-full  ">
+    <div className="w-full  my-6 mx-2">
       <div className="w-full h-full bg-white rounded shadow-lg p-8 m-4 md:max-w-sm md:mx-auto content-center ">
         <span className="block w-full text-xl uppercase font-bold  text-center pb-8 text-[#00df9a]">
           Login
@@ -59,7 +65,7 @@ const Login = () => {
         <form className="mb-4" action="/" onSubmit={handleLogin}>
           <div className="mb-4 md:w-full">
             <label for="email" class="block text-xs mb-1">
-              Email
+              Username
             </label>
             <input
               value={email}
@@ -68,14 +74,14 @@ const Login = () => {
               }}
               className=" w-full border rounded p-2 outline-none focus:shadow-outline"
               type="text"
-              name="email"
+              name="username"
               id="email"
-              placeholder="Email"
+              placeholder="username"
             />
             {email && (
               <div className="ml-1">
                 <div className="">
-                  <small className="text-[#30e730]"> Email valid </small>
+                  <small className="text-[#30e730]"> Username valid </small>
                 </div>
               </div>
             )}
@@ -100,7 +106,7 @@ const Login = () => {
                 <div className="">
                   <small
                     className={
-                      hasSixChar ? "text-[#30e730] " : "text-[#ff2d2d] "
+                      true ? "text-[#30e730] " : "text-[#ff2d2d] "
                     }
                   >
                     {" "}
@@ -110,7 +116,7 @@ const Login = () => {
                 <div className="">
                   <small
                     className={
-                      hasLowerChar ? "text-[#30e730] " : "text-[#ff2d2d] "
+                     true  ? "text-[#30e730] " : "text-[#ff2d2d] "
                     }
                   >
                     {" "}
@@ -142,7 +148,7 @@ const Login = () => {
              :  
              <button className="bg-[#7ec0aa] hover:bg-[#289672] text-white uppercase text-sm font-semibold px-4 py-2 rounded">Login</button> } */}
 
-          {!email || !password ? (
+          {!email || !password || hasLowerChar || !hasNumber || hasSixChar ? (
             <button
               disableds
               className="bg-gray-300 focus:outline-none  text-white uppercase text-sm font-semibold px-4 py-2 rounded"

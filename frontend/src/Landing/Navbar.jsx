@@ -60,16 +60,16 @@ const Navbar = () => {
             }`}
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-              <Link className="text-white hover:text-indigo-200" to="/">
+              <Link className="text-white hover:text-indigo-200" to="/landing">
                 Home
               </Link>
-              <Link className="text-white hover:text-indigo-200 w-full" to="/#analytics">
+              <Link className="text-white hover:text-indigo-200 w-full" to="landing/#analytics">
                 About 
               </Link>
               {/* {/* <Link className="text-white hover:text-indigo-200" to="">
                 Managers
               </Link> */}
-              <Link className="text-white hover:text-indigo-200" to="/landing#analytics">
+              <Link className="text-white hover:text-indigo-200" to="#analytics">
                 Contact
               </Link>
               {/* <Link className="text-white hover:text-indigo-200" to="/rapports">

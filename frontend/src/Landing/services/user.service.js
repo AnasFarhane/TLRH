@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/test/";
+const API_URL = "http://localhost:3000/api/collaboraeurs/";
 
 const getPublicContent = () => {
   return axios.get(API_URL + "collaborateurs");
 };
 
 const getUserBoard = () => {
-  return axios.get(API_URL + "manages");
+  return axios.get(API_URL + "managers");
 };
 
 const getAdminBoard = () => {

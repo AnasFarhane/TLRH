@@ -1,5 +1,5 @@
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import React, {createContext, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {Header, SideBar} from "./Collabs/Containers";
 import CollabListPage from "./Collabs/CollabListPage";
 import CollabAddPage from "./Collabs/CollabAddPage";
@@ -12,14 +12,22 @@ import {Rapports, RatioFemininMasculin, Etudes, Technologie, Recrutement} from "
 import Salaire from "./Reporting/Components/Salaire";
 import PosteAPPEvolution from "./Reporting/Components/PosteAPPEvolution";
 import MatriceCompetence from "./Reporting/Components/MatriceCompetence";
+import Navbar from "./Landing/Navbar";
+
+import Auth from "./Auth";
+import {getToken, isTokenExpired} from "./Landing/services/auth.service";
+
 
 
 function Routing(props) {
     const routes = ["/landing", "/login", "/resetPassword"]
+    const isConnected = !isTokenExpired(getToken())
+    const logged = !!JSON.parse(localStorage.getItem("isLog"));
+    console.log(isConnected)
     return (
         <Router>
             {
-                !(window.location.pathname in routes) ? (
+                ( routes.includes(window.location.pathname) || !isConnected ) ? (
                     <>
                         <Route path="/landing" key={"landing"}>
                             <Landing/>
@@ -30,7 +38,7 @@ function Routing(props) {
                         <Route path="/resetPassword" key={"resetPassword"}>
                             <ResetPassword/>
                         </Route>
-                    </>) :            <div className="CollabPage">
+                    </>) :            (<div className="CollabPage">
                     <SideBar/>
                     <div className="CollabPage__stretch">
                         <Header/>
@@ -62,11 +70,12 @@ function Routing(props) {
                             <Route path="/reports/competence"><MatriceCompetence/></Route>
                         </Switch>
                     </div>
-                </div>
+                </div>)
 
             }
-
         </Router>
+
+    
     )
 }
 

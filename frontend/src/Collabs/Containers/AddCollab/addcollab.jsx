@@ -37,7 +37,6 @@ const AddCollab = () => {
         console.log("Day month :" + day + "/" + month + "/" + year)
         return day + "/" + month + "/" + year
     }
-
     useEffect(() => {
         if (location.state !== undefined) {
             url = 'saveCollab'
